@@ -7,7 +7,7 @@ In particular:
 
 - the provided flake only depends on functionality from Nixpkgs
 
-- the template covers most Nix tweaks people you'll need in practice
+- the template covers most Nix tweaks you'll need in practice
 
 - the flake is short and clear
 
