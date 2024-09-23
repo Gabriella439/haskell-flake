@@ -43,7 +43,7 @@
       overlays.default = self: super: {
         inherit all-cabal-hashes;
 
-        haskellPackagesCustom = super.haskellPackages.override (old: {
+        haskellPackagesCustom = self.haskellPackages.override (old: {
           overrides =
             let
               hlib = self.haskell.lib.compose;

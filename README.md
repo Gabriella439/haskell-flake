@@ -173,7 +173,7 @@ If you're wondering why the flake assigns the updated package set to a new
 `haskellPackagesCustom` attribute:
 
 ```nix
-        haskellPackagesCustom = super.haskellPackages.override (old: {
+        haskellPackagesCustom = self.haskellPackages.override (old: {
 ```
 
 … instead of updating the `haskellPackages` attribute in place like this:
