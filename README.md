@@ -164,3 +164,34 @@ you'd write:
 
 You can find the full list of available functions
 [here](https://github.com/NixOS/nixpkgs/blob/master/pkgs/development/haskell-modules/lib/compose.nix).
+
+## Discussion
+
+### Why `haskellPackagesCustom`?
+
+If you're wondering why the flake assigns the updated package set to a new
+`haskellPackagesCustom` attribute:
+
+```nix
+        haskellPackagesCustom = super.haskellPackages.override (old: {
+```
+
+… instead of updating the `haskellPackages` attribute in place like this:
+
+```nix
+        haskellPackages = super.haskellPackages.override (old: {
+```
+
+… it's because the latter will trigger an infinite recursion if you use
+`packageSourceOverrides` to override any dependency of `cabal2nix` (and
+`cabal2nix` has a decent number of dependencies, including `aeson`, `lens` and
+`optparse-applicative`).  In particular, this happens because
+`packageSourceOverrides` depends on `callCabal2nix`, which in turn depends on
+`haskellPackages.cabal2nix-unwrapped`, so if you define `haskellPackages` in
+terms of `packageSourceOverrides` you can accidentally trigger an infinite
+loop if any of the entries in `packageSourceOverrides` affect
+`haskellPackages.cabal2nix-unwrapped`.
+
+The simplest way to avoid this problem is to not override the
+`haskellPackages` attribute and to create a new attribute
+(`haskellPackagesCustom` in this case).
