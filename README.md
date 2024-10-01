@@ -88,7 +88,7 @@ by editing the `packageSourceOverrides` section, like this:
                   ${name} = ./.;
 
                   # Add your desired package and version here
-                  ${hackagePackageName} = ${desiredVversion};
+                  ${hackagePackageName} = ${desiredVersion};
                 })
 ```
 
